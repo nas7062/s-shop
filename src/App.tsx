@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import './App.css';
+import Header from './components/Header';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-blue-600">Tailwind v4 적용</h1>
+      <div className="shadow-xl ">
+        <Header />
+        <Outlet />
+      </div>
     </>
   );
 }
