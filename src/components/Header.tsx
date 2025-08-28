@@ -16,7 +16,7 @@ const menu: MenuItem[] = [
 
 const mobileMenu: MenuItem[] = menu.filter((item) => item.icon !== Search);
 export default function Header() {
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState('홈');
 
   const selectedMenu = (menu: string) => {
     setSelected(menu);
@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <div className="flex justify-between items-center">
       <div>
-        <h1 className="text-5xl tracking-widest font-bold cursor-pointer">
+        <h1 className="text-3xl sm:text-5xl tracking-widest font-bold cursor-pointer">
           10012
         </h1>
       </div>
@@ -52,7 +52,7 @@ export default function Header() {
               )}
               onClick={() => selectedMenu(item.label)}
             >
-              <item.icon className="w-5 h-5" />
+              <item.icon className="w-6 h-6" />
               <span>{item.label}</span>
             </button>
           ))}

@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <div className="shadow-xl ">
+      <div>
         <Header />
         <Outlet />
       </div>
