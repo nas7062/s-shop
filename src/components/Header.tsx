@@ -20,7 +20,7 @@ export default function Header() {
           10012
         </h1>
       </div>
-      <div className="w-1/3">
+      <div className=" hidden sm:block md:w-2/3 lg:w-1/2 xl:w-1/3">
         <ul className="flex justify-between font-semibold text-xl ">
           {menu.map((item) => (
             <button
