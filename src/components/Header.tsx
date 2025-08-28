@@ -1,5 +1,6 @@
 import { Heart, Home, Search, ShoppingCart, User } from 'lucide-react';
-
+import { useState } from 'react';
+import clsx from 'clsx';
 type MenuItem = {
   label: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -15,6 +16,11 @@ const menu: MenuItem[] = [
 
 const mobileMenu: MenuItem[] = menu.filter((item) => item.icon !== Search);
 export default function Header() {
+  const [selected, setSelected] = useState('');
+
+  const selectedMenu = (menu: string) => {
+    setSelected(menu);
+  };
   return (
     <div className="flex justify-between items-center">
       <div>
@@ -35,12 +41,16 @@ export default function Header() {
           ))}
         </nav>
       </div>
-      <div className=" sm:hidden fixed bottom-0 left-0 right-0 bg-gray-100 border border-gray-200 font-semibold">
+      <div className=" sm:hidden fixed bottom-0 left-0 right-0 bg-gray-50 border text-gray-500 border-gray-200 font-semibold">
         <nav className="flex flex-row items-center justify-around">
           {mobileMenu.map((item) => (
             <button
               key={item.label}
-              className="flex flex-col items-center min-w-20   cursor-pointer gap-1 px-3 py-2  "
+              className={clsx(
+                `flex flex-col items-center min-w-20   cursor-pointer gap-1 px-3 py-2  `,
+                selected === item.label && 'text-black',
+              )}
+              onClick={() => selectedMenu(item.label)}
             >
               <item.icon className="w-5 h-5" />
               <span>{item.label}</span>
