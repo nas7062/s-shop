@@ -22,7 +22,7 @@ export default function Header() {
     setSelected(menu);
   };
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center pb-10">
       <div>
         <h1 className="text-3xl sm:text-5xl tracking-widest font-bold cursor-pointer">
           10012
