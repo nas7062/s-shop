@@ -31,7 +31,7 @@ export default function CategoryList() {
           <img
             src={cate.image}
             alt={cate.name}
-            className=" w-12 sm:w-20  hover:scale-105"
+            className=" w-12 sm:w-20 transition-all duration-200 hover:scale-115"
           />
           <p className="font-semibold text-xs sm:text-base">{cate.name}</p>
         </button>
