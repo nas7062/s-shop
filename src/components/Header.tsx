@@ -1,4 +1,4 @@
-import { Heart, Home, Search, ShoppingCart, User } from 'lucide-react';
+import { Heart, LogIn, Search, ShoppingCart, User } from 'lucide-react';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ type MenuItem = {
 };
 
 const menu: MenuItem[] = [
-  { label: '홈', icon: Home },
+  { label: '로그인', icon: LogIn, path: '/login' },
   { label: '장바구니', icon: ShoppingCart },
   { label: '좋아요', icon: Heart },
   { label: '마이', icon: User },

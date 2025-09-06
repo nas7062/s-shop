@@ -1,6 +1,8 @@
 import CategoryList from '@/components/CategoryList';
 import { Search } from 'lucide-react';
 
+const SearchDate = {};
+
 export default function SearchPage() {
   return (
     <div>
@@ -9,6 +11,12 @@ export default function SearchPage() {
         <Search className="absolute right-2" />
       </div>
       <CategoryList />
+      <section>
+        <h3>인기 검색어</h3>
+      </section>
+      <section>
+        <h3>최근 본 상품</h3>
+      </section>
     </div>
   );
 }
