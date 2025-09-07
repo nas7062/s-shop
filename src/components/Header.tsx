@@ -1,7 +1,7 @@
 import { Heart, LogIn, Search, ShoppingCart, User } from 'lucide-react';
 import { useState } from 'react';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 type MenuItem = {
   label: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -27,9 +27,11 @@ export default function Header() {
   return (
     <div className="flex justify-between items-center pb-10">
       <div>
-        <h1 className="text-3xl sm:text-5xl tracking-widest font-bold cursor-pointer">
-          10012
-        </h1>
+        <Link to={'/'}>
+          <h1 className="text-3xl sm:text-5xl tracking-widest font-bold cursor-pointer">
+            10012
+          </h1>
+        </Link>
       </div>
       <div className=" hidden sm:block md:w-2/3 lg:w-1/2 xl:w-1/3">
         <nav className="flex justify-between font-semibold text-lg ">
