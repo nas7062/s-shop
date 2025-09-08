@@ -16,6 +16,21 @@ export default function SignUpPage() {
           placeholder="비밀번호"
           className="border border-gray-200 px-2 py-2 rounded-md"
         />
+        <input
+          type="password"
+          placeholder="비밀번호확인"
+          className="border border-gray-200 px-2 py-2 rounded-md"
+        />
+        <input
+          type="text"
+          placeholder="휴대폰번호"
+          className="border border-gray-200 px-2 py-2 rounded-md"
+        />
+        <input
+          type="text"
+          placeholder="주소"
+          className="border border-gray-200 px-2 py-2 rounded-md"
+        />
         <button className="border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 text-white cursor-pointer px-2 py-2 rounded-md">
           회원가입
         </button>
