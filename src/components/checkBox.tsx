@@ -1,7 +1,12 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { agreements } from '../data/agreements';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowBigDown,
+  ArrowDown,
+  ArrowDownIcon,
+  ArrowRight,
+} from 'lucide-react';
 
 interface CheckBoxProps {
   id: string;
@@ -42,7 +47,7 @@ const CheckBox = ({
         </div>
         {/* 오른쪽: 화살표 */}
         {showButton && (
-          <ArrowRight
+          <ArrowDownIcon
             className="w-4 h-4 mr-1 mb-1 cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
           />

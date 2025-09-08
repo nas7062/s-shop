@@ -1,7 +1,10 @@
 import CheckBox from '@/components/checkBox';
+import clsx from 'clsx';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function TermsPage() {
+  const navigate = useNavigate();
   const [agreements, setAgreements] = useState({
     all: false,
     privacy: false,
@@ -45,25 +48,35 @@ export default function TermsPage() {
         <CheckBox
           id="privacy"
           title="개인정보 수집 항목"
-          showButton={false}
+          showButton={true}
           checked={agreements.privacy}
           onChange={handleCheckChange}
         />
         <CheckBox
           id="delegate"
           title="개인정보 처리 위탁 동의"
-          showButton={false}
+          showButton={true}
           checked={agreements.delegate}
           onChange={handleCheckChange}
         />
         <CheckBox
           id="terms"
           title="이용 약관"
-          showButton={false}
+          showButton={true}
           checked={agreements.terms}
           onChange={handleCheckChange}
         />
       </div>
+      <button
+        disabled={!agreements.all}
+        onClick={() => navigate('/signup')}
+        className={clsx(
+          'mt-6 h-14 rounded-xl border border-gray-600 bg-gray-600 text-white cursor-pointer hover:bg-gray-800',
+          !agreements.all && 'cursor-not-allowed opacity-50 hover:bg-gray-600',
+        )}
+      >
+        동의하고 회원가입하기
+      </button>
     </div>
   );
 }

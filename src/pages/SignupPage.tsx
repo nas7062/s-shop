@@ -27,7 +27,7 @@ export default function SignUpPage() {
           className="border border-gray-200 px-2 py-2 rounded-md"
         />
         <input
-          type="text"
+          type="text" 
           placeholder="주소"
           className="border border-gray-200 px-2 py-2 rounded-md"
         />
