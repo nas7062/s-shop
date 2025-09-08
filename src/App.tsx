@@ -12,7 +12,9 @@ function App() {
       <div>
         <Header />
         <Outlet />
-        {pathname !== '/login' && pathname !== '/signup' && <Footer />}
+        {pathname !== '/login' &&
+          pathname !== '/signup' &&
+          pathname !== '/terms' && <Footer />}
       </div>
     </>
   );

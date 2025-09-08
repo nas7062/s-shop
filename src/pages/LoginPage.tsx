@@ -30,7 +30,7 @@ export default function LoginPage() {
           {/* 버튼은 오른쪽 끝 */}
           <button
             className="ml-auto text-sm  text-gray-500 cursor-pointer hover:text-gray-900"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/terms')}
           >
             회원가입
           </button>
