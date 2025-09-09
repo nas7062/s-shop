@@ -15,12 +15,17 @@ export default function DetailPage() {
   return (
     <div className=" flex justify-between">
       <div></div>
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-col gap-10">
         <img
           src={product.image}
           alt={product.title}
           className="w-80 h-80 object-cover"
         />
+        <div className="flex justify-center text-center items-center">
+          <p className="bg-white flex-1 px-2 py-2">상품정보</p>
+          <p className="bg-gray-300 text-gray-400 flex-1 px-2 py-2">리뷰</p>
+          <p className="bg-gray-300 text-gray-400 flex-1 px-2 py-2">추천</p>
+        </div>
       </div>
       <div className="mt-4 w-1/3 flex flex-col gap-4">
         <h1 className="text-xl font-bold">{product.title}</h1>
