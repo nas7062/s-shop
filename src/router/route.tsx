@@ -5,6 +5,7 @@ import SearchPage from '@/pages/SearchPage';
 import LoginPage from '@/pages/LoginPage';
 import SignupPage from '@/pages/SignupPage';
 import TermsPage from '@/pages/TermsPage';
+import DetailPage from '@/pages/DetailPage';
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignupPage />,
+      },
+      {
+        path: '/detail/:productId',
+        element: <DetailPage />,
       },
     ],
   },
