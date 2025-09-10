@@ -7,6 +7,7 @@ import ProductInfo from '@/components/ProductInfo';
 import ColorList from '@/components/ColorList';
 import SizeList from '@/components/SizeList';
 import ActionButtons from '@/components/ActionButtons';
+import ProductSideBar from '@/components/ProductSideBar';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -86,30 +87,17 @@ export default function DetailPage() {
         </section>
 
         {/* 정보 사이드바 */}
-        <aside className="lg:col-span-1 bg-white rounded-2xl shadow p-5 h-max lg:sticky lg:top-6">
-          <ProductInfo product={product} />
-          {/* 옵션: 컬러 */}
-          <ColorList
-            product={product}
-            selectedColor={selectedColor}
-            setSelectedColor={setSelectedColor}
-          />
-
-          {/* 옵션: 사이즈 */}
-          <SizeList
-            product={product}
-            selectedSize={selectedSize}
-            setSelectedSize={setSelectedSize}
-          />
-
-          {/* 액션 버튼 */}
-          <ActionButtons
-            wish={wish}
-            onToggleWish={() => setWish((w) => !w)}
-            onAddCart={handleAddCart}
-            onBuyNow={handleBuyNow}
-          />
-        </aside>
+        <ProductSideBar
+          product={product}
+          selectedColor={selectedColor}
+          setSelectedColor={setSelectedColor}
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
+          wish={wish}
+          onToggleWish={() => setWish((w) => !w)}
+          onAddCart={handleAddCart}
+          onBuyNow={handleBuyNow}
+        />
       </div>
 
       {/* 하단 탭 영역 */}
