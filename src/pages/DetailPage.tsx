@@ -3,9 +3,10 @@ import { Star } from 'lucide-react';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ProductInfo from '@/components/ProductInfo';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
-interface Product {
+export interface Product {
   id?: string;
   title: string;
   description: string;
@@ -83,21 +84,7 @@ export default function DetailPage() {
 
         {/* 정보 사이드바 */}
         <aside className="lg:col-span-1 bg-white rounded-2xl shadow p-5 h-max lg:sticky lg:top-6">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
-          <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
-            <span className="font-medium">평점</span>
-            <span aria-label={`평점 ${product.rating}`}>
-              {'★'.repeat(Math.round(product.rating))}
-            </span>
-            <span className="ml-1">{product.rating.toFixed(1)}</span>
-          </div>
-
-          <p className="mt-4 text-gray-700 leading-relaxed">
-            {product.description}
-          </p>
-
-          <div className="mt-4 text-2xl font-semibold">{product.price}</div>
-
+          <ProductInfo product={product} />
           {/* 옵션: 컬러 */}
           <div className="mt-6">
             <p className="text-sm text-gray-600 mb-2">컬러</p>
@@ -113,7 +100,6 @@ export default function DetailPage() {
                       ? 'border-black'
                       : 'border-gray-300 hover:border-gray-400',
                   )}
-                  aria-pressed={selectedColor === c}
                 >
                   {c}
                 </button>
@@ -136,7 +122,6 @@ export default function DetailPage() {
                       ? 'border-black'
                       : 'border-gray-300 hover:border-gray-400',
                   )}
-                  aria-pressed={selectedSize === s}
                 >
                   {s}
                 </button>
