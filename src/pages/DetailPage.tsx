@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import ProductInfo from '@/components/ProductInfo';
 import ColorList from '@/components/ColorList';
 import SizeList from '@/components/SizeList';
+import ActionButtons from '@/components/ActionButtons';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -102,41 +103,12 @@ export default function DetailPage() {
           />
 
           {/* 액션 버튼 */}
-          <div className="mt-6 flex gap-2 items-center">
-            <button
-              type="button"
-              onClick={() => setWish((w) => !w)}
-              className={clsx(
-                'w-10 h-10 flex items-center justify-center rounded-xl border transition ',
-                wish ? 'border-black' : 'border-gray-300 hover:border-gray-400',
-              )}
-              aria-pressed={wish}
-              aria-label={wish ? '위시 해제' : '위시에 추가'}
-              title={wish ? '위시 해제' : '위시에 추가'}
-            >
-              <Star
-                className={clsx(
-                  wish ? 'fill-yellow-300 ' : ' ',
-                  'cursor-pointer',
-                )}
-              />
-            </button>
-
-            <button
-              type="button"
-              onClick={handleAddCart}
-              className="flex-1 bg-white border border-gray-300 px-4 py-3 rounded-xl hover:bg-gray-50 transition cursor-pointer"
-            >
-              장바구니
-            </button>
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="flex-1 bg-black text-white border border-black px-4 py-3 rounded-xl hover:opacity-90 transition cursor-pointer"
-            >
-              구매하기
-            </button>
-          </div>
+          <ActionButtons
+            wish={wish}
+            onToggleWish={() => setWish((w) => !w)}
+            onAddCart={handleAddCart}
+            onBuyNow={handleBuyNow}
+          />
         </aside>
       </div>
 
