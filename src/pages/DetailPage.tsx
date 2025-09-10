@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductInfo from '@/components/ProductInfo';
 import ColorList from '@/components/ColorList';
+import SizeList from '@/components/SizeList';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -94,26 +95,11 @@ export default function DetailPage() {
           />
 
           {/* 옵션: 사이즈 */}
-          <div className="mt-4">
-            <p className="text-sm text-gray-600 mb-2">사이즈</p>
-            <div className="flex flex-wrap gap-2">
-              {product.sizes.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => setSelectedSize(s)}
-                  className={clsx(
-                    'px-3 py-1.5 rounded-full border text-sm transition-colors cursor-pointer w-10 h-10',
-                    selectedSize === s
-                      ? 'border-black'
-                      : 'border-gray-300 hover:border-gray-400',
-                  )}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
+          <SizeList
+            product={product}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+          />
 
           {/* 액션 버튼 */}
           <div className="mt-6 flex gap-2 items-center">
