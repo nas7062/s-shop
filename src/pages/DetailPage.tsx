@@ -8,6 +8,7 @@ import ColorList from '@/components/ColorList';
 import SizeList from '@/components/SizeList';
 import ActionButtons from '@/components/ActionButtons';
 import ProductSideBar from '@/components/ProductSideBar';
+import ProductCard from '@/components/ProductCard';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -163,14 +164,13 @@ export default function DetailPage() {
 
           {selectedTab === '추천' && (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="border rounded-xl overflow-hidden">
-                  <div className="aspect-square bg-gray-100" />
-                  <div className="p-3">
-                    <div className="text-sm">추천 상품 {i}</div>
-                    <div className="text-xs text-gray-500">₩9,900</div>
-                  </div>
-                </div>
+              {[1, 2, 3, 4].map((idx) => (
+                <ProductCard
+                  id={idx}
+                  title="title"
+                  description="descript"
+                  price="17000"
+                />
               ))}
             </div>
           )}
