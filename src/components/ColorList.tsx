@@ -15,7 +15,7 @@ export default function ColorList({
     <div className="mt-6">
       <p className="text-sm text-gray-600 mb-2">컬러</p>
       <div className="flex flex-wrap gap-2">
-        {product.colors.map((c) => (
+        {product.colors?.map((c) => (
           <button
             key={c}
             type="button"

@@ -41,7 +41,7 @@ const ProductList: React.FC = () => {
 
   return (
     <div>
-      <h1>Product List</h1>
+      <h2 className="text-xl font-semibold py-4">당신을 위한 추천 아이템!</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-0.5 ">
         {products.map((product) => (
           <ProductCard product={product} />

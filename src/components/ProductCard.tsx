@@ -7,7 +7,6 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
 
-  console.log(product.image_url);
   return (
     <div
       className="flex flex-col  bg-gray-50 rounded py-4  "
@@ -17,13 +16,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.image_url}
           alt={product.name}
-          className="w-52 h-52 transition-all duration-200 hover:scale-105 cursor-pointer"
+          className="w-52 h-52  object-cover transition-all duration-200 hover:scale-103 cursor-pointer"
         />
       </div>
       <div className="px-4 mt-2">
         <p className="font-semibold">{product.name}</p>
-        <p>{product.description}</p>
-        <p>{product.price}</p>
+        <p className="text-sm">{product.description}</p>
+        <p className="font-semibold text-sm">{product.price}$</p>
       </div>
     </div>
   );

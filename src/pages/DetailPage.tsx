@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductSideBar from '@/components/ProductSideBar';
 import ProductCard from '@/components/ProductCard';
+import supabase from '@/supabase';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -19,29 +20,43 @@ export interface Product {
 
 export default function DetailPage() {
   const { productId } = useParams();
-
-  // TODO: productId로 API 호출하여 데이터 가져오기
-  const product: Product = useMemo(
-    () => ({
-      id: Number(productId),
-      name: '상품 이름',
-      description:
-        '이 상품은 높은 내구성과 편안한 착용감을 특징으로 합니다. 일상과 운동 모두에 적합합니다.',
-      price: 10000,
-      image_url: image,
-      colors: ['블랙', '그레이', '화이트'],
-      sizes: ['S', 'M', 'L', 'XL'],
-      rating: 4.3,
-    }),
-    [productId],
-  );
-
+  const [product, setProduct] = useState<Product>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const TABS = ['상품정보', '리뷰', '추천'] as const;
   type Tab = (typeof TABS)[number];
   const [selectedTab, setSelectedTab] = useState<Tab>('상품정보');
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [wish, setWish] = useState(false);
+  useEffect(() => {
+    // productId가 있을 경우 API로 데이터 요청
+    if (productId) {
+      const fetchProduct = async () => {
+        const { data, error } = await supabase
+          .from('Products')
+          .select('*')
+          .eq('id', productId)
+          .single();
+
+        if (error) {
+          setError('Product not found');
+          console.error(error);
+        } else {
+          setProduct(data);
+        }
+
+        setLoading(false);
+      };
+
+      fetchProduct();
+    } else {
+      setError('Product ID is missing');
+      setLoading(false);
+    }
+  }, [productId]); // productId가 바뀔 때마다 다시 호출
+
+  console.log(product);
 
   // 상태 변경 로그는 setState 직후가 아니라 effect에서 확인
   useEffect(() => {
@@ -56,7 +71,7 @@ export default function DetailPage() {
     }
     // 장바구니 로직 (ex. 전역상태/서버에 추가)
     alert(
-      `장바구니 담기 완료: ${product.name} / ${selectedColor} / ${selectedSize}`,
+      `장바구니 담기 완료: ${product?.name} / ${selectedColor} / ${selectedSize}`,
     );
   };
 
@@ -69,6 +84,16 @@ export default function DetailPage() {
     alert('바로 구매 진행');
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+  if (!product) {
+    return <div>Product not found</div>;
+  }
   return (
     <div className="mx-auto  ">
       {/* 상단 그리드: 좌측 이미지, 우측 정보 */}
