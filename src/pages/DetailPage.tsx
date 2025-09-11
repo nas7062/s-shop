@@ -1,24 +1,19 @@
 import image from '@/assets/shop1.jpg';
-import { Star } from 'lucide-react';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductInfo from '@/components/ProductInfo';
-import ColorList from '@/components/ColorList';
-import SizeList from '@/components/SizeList';
-import ActionButtons from '@/components/ActionButtons';
 import ProductSideBar from '@/components/ProductSideBar';
 import ProductCard from '@/components/ProductCard';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
-  id?: string;
-  title: string;
+  id: number;
+  name: string;
   description: string;
-  price: string;
-  image: string;
-  colors: string[];
-  sizes: string[];
+  price: number;
+  image_url: string;
+  colors?: string[];
+  sizes?: string[];
   rating: number;
 }
 
@@ -28,12 +23,12 @@ export default function DetailPage() {
   // TODO: productId로 API 호출하여 데이터 가져오기
   const product: Product = useMemo(
     () => ({
-      id: productId,
-      title: '상품 이름',
+      id: Number(productId),
+      name: '상품 이름',
       description:
         '이 상품은 높은 내구성과 편안한 착용감을 특징으로 합니다. 일상과 운동 모두에 적합합니다.',
-      price: '₩10,000',
-      image,
+      price: 10000,
+      image_url: image,
       colors: ['블랙', '그레이', '화이트'],
       sizes: ['S', 'M', 'L', 'XL'],
       rating: 4.3,
@@ -61,7 +56,7 @@ export default function DetailPage() {
     }
     // 장바구니 로직 (ex. 전역상태/서버에 추가)
     alert(
-      `장바구니 담기 완료: ${product.title} / ${selectedColor} / ${selectedSize}`,
+      `장바구니 담기 완료: ${product.name} / ${selectedColor} / ${selectedSize}`,
     );
   };
 
@@ -81,8 +76,8 @@ export default function DetailPage() {
         {/* 이미지 영역 */}
         <section className="lg:col-span-2 bg-white rounded-2xl shadow p-4 flex items-center justify-center">
           <img
-            src={product.image}
-            alt={product.title}
+            src={product.image_url}
+            alt={product.name}
             className="w-full max-w-xl aspect-auto object-cover rounded-xl"
           />
         </section>
@@ -128,8 +123,8 @@ export default function DetailPage() {
           {selectedTab === '상품정보' && (
             <div className="prose max-w-none flex flex-col justify-center gap-4">
               <img
-                src={product.image}
-                alt={product.title}
+                src={product.image_url}
+                alt={product.name}
                 className="w-96 self-center"
               />
               <h2 className="text-2xl">상세 설명</h2>
@@ -165,12 +160,7 @@ export default function DetailPage() {
           {selectedTab === '추천' && (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((idx) => (
-                <ProductCard
-                  id={idx}
-                  title="title"
-                  description="descript"
-                  price="17000"
-                />
+                <ProductCard product={product} />
               ))}
             </div>
           )}

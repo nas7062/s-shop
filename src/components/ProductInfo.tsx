@@ -7,7 +7,7 @@ interface productInfoProps {
 export default function ProductInfo({ product }: productInfoProps) {
   return (
     <div>
-      <h1 className="text-2xl font-bold">{product.title}</h1>
+      <h1 className="text-2xl font-bold">{product.name}</h1>
       <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
         <span className="font-medium">평점</span>
         <span aria-label={`평점 ${product.rating}`}>

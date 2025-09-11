@@ -27,7 +27,10 @@ export default function CategoryList() {
   return (
     <div className="grid space-y-4 justify-items-center grid-cols-4 xl:grid-cols-8 mt-10 ">
       {Category.map((cate) => (
-        <button className="px-2 py-1 flex  flex-col justify-center items-center bg-gray-50 h-20 w-20 sm:h-32 sm:w-32 rounded-full cursor-pointer hover:bg-gray-100">
+        <button
+          key={cate.name}
+          className="px-2 py-1 flex  flex-col justify-center items-center bg-gray-50 h-20 w-20 sm:h-32 sm:w-32 rounded-full cursor-pointer hover:bg-gray-100"
+        >
           <img
             src={cate.image}
             alt={cate.name}
