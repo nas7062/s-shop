@@ -10,18 +10,18 @@ export default function ProductCard({ product }: ProductCardProps) {
   console.log(product.image_url);
   return (
     <div
-      className="flex flex-col  bg-gray-50 rounded pb-4  "
+      className="flex flex-col  bg-gray-50 rounded py-4  "
       onClick={() => navigate(`/detail/${product.id}`)}
     >
       <div className="flex justify-center items-center">
         <img
           src={product.image_url}
           alt={product.name}
-          className="w-48 h-48 transition-all duration-200 hover:scale-110 cursor-pointer"
+          className="w-52 h-52 transition-all duration-200 hover:scale-105 cursor-pointer"
         />
       </div>
-      <div className="px-4">
-        <p>{product.name}</p>
+      <div className="px-4 mt-2">
+        <p className="font-semibold">{product.name}</p>
         <p>{product.description}</p>
         <p>{product.price}</p>
       </div>

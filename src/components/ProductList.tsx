@@ -42,11 +42,11 @@ const ProductList: React.FC = () => {
   return (
     <div>
       <h1>Product List</h1>
-      <ul>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-0.5 ">
         {products.map((product) => (
           <ProductCard product={product} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
