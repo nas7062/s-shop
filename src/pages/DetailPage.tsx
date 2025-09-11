@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import ProductSideBar from '@/components/ProductSideBar';
 import ProductCard from '@/components/ProductCard';
 import supabase from '@/supabase';
+import TabButtons, { Tab } from '@/components/TabButtons';
+import ProductInfoTab from '@/components/ProductInfoTab';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -23,8 +25,6 @@ export default function DetailPage() {
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const TABS = ['상품정보', '리뷰', '추천'] as const;
-  type Tab = (typeof TABS)[number];
   const [selectedTab, setSelectedTab] = useState<Tab>('상품정보');
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -54,15 +54,7 @@ export default function DetailPage() {
       setError('Product ID is missing');
       setLoading(false);
     }
-  }, [productId]); // productId가 바뀔 때마다 다시 호출
-
-  console.log(product);
-
-  // 상태 변경 로그는 setState 직후가 아니라 effect에서 확인
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('selectedTab:', selectedTab);
-  }, [selectedTab]);
+  }, [productId]);
 
   const handleAddCart = () => {
     if (!selectedColor || !selectedSize) {
@@ -123,47 +115,11 @@ export default function DetailPage() {
 
       {/* 하단 탭 영역 */}
       <section className="mt-8 bg-white rounded-2xl shadow">
-        {/* 탭 헤더 */}
-        <div className="grid grid-cols-3 text-center text-sm font-medium overflow-hidden rounded-t-2xl ">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              onClick={() => setSelectedTab(tab)}
-              className={clsx(
-                'px-4 py-3 focus:outline-none transition-colors cursor-pointer',
-                selectedTab === tab
-                  ? 'bg-white'
-                  : 'bg-gray-100 text-gray-500 hover:bg-gray-200',
-              )}
-              aria-current={selectedTab === tab ? 'page' : undefined}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+        <TabButtons selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 
         {/* 탭 컨텐츠 */}
         <div className="p-6">
-          {selectedTab === '상품정보' && (
-            <div className="prose max-w-none flex flex-col justify-center gap-4">
-              <img
-                src={product.image_url}
-                alt={product.name}
-                className="w-96 self-center"
-              />
-              <h2 className="text-2xl">상세 설명</h2>
-              <p>
-                소재: 폴리에스터 혼방 / 세탁: 미온수 단독 세탁 권장. 제품 색상은
-                모니터 설정에 따라 차이가 있을 수 있습니다.
-              </p>
-              <ul>
-                <li>가벼운 착용감</li>
-                <li>통기성 우수</li>
-                <li>데일리/운동 겸용</li>
-              </ul>
-            </div>
-          )}
+          {selectedTab === '상품정보' && <ProductInfoTab product={product} />}
 
           {selectedTab === '리뷰' && (
             <div className="space-y-4">
