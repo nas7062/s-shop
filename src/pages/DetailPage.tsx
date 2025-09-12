@@ -7,6 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import supabase from '@/supabase';
 import TabButtons, { Tab } from '@/components/TabButtons';
 import ProductInfoTab from '@/components/ProductInfoTab';
+import TabReviews from '@/components/TabReviews';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -15,7 +16,7 @@ export interface Product {
   description: string;
   price: number;
   image_url: string;
-  colors?: string[];
+  Colors?: string[];
   sizes?: string[];
   rating: number;
 }
@@ -121,22 +122,7 @@ export default function DetailPage() {
         <div className="p-6">
           {selectedTab === '상품정보' && <ProductInfoTab product={product} />}
 
-          {selectedTab === '리뷰' && (
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="border rounded-xl p-4">
-                  <div className="text-sm text-gray-600">user{i}@mail.com</div>
-                  <div className="mt-1 text-yellow-500" aria-label="별점">
-                    {'★'.repeat(4)}
-                    {'☆'}
-                  </div>
-                  <p className="mt-2 text-gray-700">
-                    만족스럽습니다. 재구매 의사 있어요.
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+          {selectedTab === '리뷰' && <TabReviews />}
 
           {selectedTab === '추천' && (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
