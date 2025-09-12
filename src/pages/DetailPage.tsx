@@ -18,7 +18,8 @@ export interface Product {
   image_url: string;
   Colors?: string[];
   Sizes?: string[];
-  rating: number;
+  rating?: number;
+  Categories: string[];
 }
 
 export default function DetailPage() {

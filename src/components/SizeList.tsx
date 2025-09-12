@@ -16,19 +16,19 @@ export default function SizeList({
     <div className="mt-4">
       <p className="text-sm text-gray-600 mb-2">사이즈</p>
       <div className="flex flex-wrap gap-2">
-        {product.Sizes?.map((s) => (
+        {product.Sizes?.map((size) => (
           <button
-            key={s}
+            key={size}
             type="button"
-            onClick={() => setSelectedSize(s)}
+            onClick={() => setSelectedSize(size)}
             className={clsx(
               'px-3 py-1.5 rounded-full border text-sm transition-colors cursor-pointer w-10 h-10',
-              selectedSize === s
+              selectedSize === size
                 ? 'border-black'
                 : 'border-gray-300 hover:border-gray-400',
             )}
           >
-            {s}
+            {size}
           </button>
         ))}
       </div>

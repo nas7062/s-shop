@@ -1,6 +1,6 @@
 // ActionButtons.tsx
 import clsx from 'clsx';
-import { Star } from 'lucide-react';
+import { Heart, Star } from 'lucide-react';
 
 interface Props {
   wish: boolean;
@@ -25,8 +25,8 @@ export default function ActionButtons({
           wish ? 'border-black' : 'border-gray-300 hover:border-gray-400',
         )}
       >
-        <Star
-          className={clsx(wish ? 'fill-yellow-300' : '', 'cursor-pointer')}
+        <Heart
+          className={clsx(wish ? 'fill-secondary' : '', 'cursor-pointer')}
         />
       </button>
 
