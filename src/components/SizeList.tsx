@@ -16,7 +16,7 @@ export default function SizeList({
     <div className="mt-4">
       <p className="text-sm text-gray-600 mb-2">사이즈</p>
       <div className="flex flex-wrap gap-2">
-        {product.sizes?.map((s) => (
+        {product.Sizes?.map((s) => (
           <button
             key={s}
             type="button"

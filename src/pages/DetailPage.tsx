@@ -17,7 +17,7 @@ export interface Product {
   price: number;
   image_url: string;
   Colors?: string[];
-  sizes?: string[];
+  Sizes?: string[];
   rating: number;
 }
 
