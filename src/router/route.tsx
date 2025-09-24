@@ -6,6 +6,7 @@ import LoginPage from '@/pages/LoginPage';
 import SignupPage from '@/pages/SignupPage';
 import TermsPage from '@/pages/TermsPage';
 import DetailPage from '@/pages/DetailPage';
+import AuthCallback from '@/components/AuthCallback';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: '/detail/:productId',
         element: <DetailPage />,
+      },
+      {
+        path: '/auth/callback',
+        element: <AuthCallback />,
       },
     ],
   },

@@ -8,9 +8,7 @@ export default function LoginPage() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        // 로그인 후 돌아올 페이지 (Router에 콜백 페이지 필요)
         redirectTo: `${window.location.origin}/auth/callback`,
-        // 이메일까지 받고 싶다면 아래 scope 사용 (카카오에서 권한 동의 필요)
         scopes: 'profile_nickname account_email',
       },
     });
