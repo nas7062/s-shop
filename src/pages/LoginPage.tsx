@@ -1,74 +1,24 @@
 // pages/LoginPage.tsx
-import { useState } from 'react';
-import supabase from '@/supabase';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
+  const { user, loading, error, signIn, signInWithKakao } = useAuthStore();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+
+  // 로그인 성공 시 라우팅
+  useEffect(() => {
+    if (user) navigate('/', { replace: true });
+  }, [user, navigate]);
 
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (loading) return;
-    setLoading(true);
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      const user = data.user;
-      if (user) {
-        await supabase.from('userinfo').upsert(
-          {
-            id: user.id,
-            email: user.email ?? email,
-            // 카카오 등 OAuth로 로그인했던 적이 있다면 user_metadata에 들어있을 수 있음
-            username: (user.user_metadata as any)?.username ?? undefined,
-            phone: (user.user_metadata as any)?.phone ?? undefined,
-            address: (user.user_metadata as any)?.address ?? undefined,
-          },
-          { onConflict: 'id' },
-        );
-      }
-
-      navigate('/', { replace: true });
-    } catch (err) {
-      console.error(err);
-      alert('로그인 중 오류가 발생했습니다.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 카카오 로그인
-  const signInWithKakao = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'kakao',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          scopes: 'profile_nickname account_email',
-        },
-      });
-      if (error) {
-        console.error(error);
-        alert('카카오 로그인 중 오류가 발생했습니다.');
-      }
-      // 리다이렉트는 supabase가 수행
-    } catch (e) {
-      console.error(e);
-      alert('카카오 로그인 초기화에 실패했습니다.');
-    }
+    await signIn({ email, password }); // 스토어가 세션/프로필 동기화 + userinfo upsert
   };
 
   return (
@@ -97,6 +47,8 @@ export default function LoginPage() {
           autoComplete="current-password"
         />
 
+        {error && <p className="text-sm text-red-600">{error}</p>}
+
         <button
           type="submit"
           disabled={loading}
@@ -117,13 +69,12 @@ export default function LoginPage() {
           <p className="flex-1 text-center text-xs text-gray-500 ml-2">
             아직 계정이 없으신가요?
           </p>
-          <button
-            type="button"
+          <a
             className="ml-auto text-sm text-gray-500 hover:text-gray-900"
-            onClick={() => navigate('/terms')}
+            href="/terms"
           >
             회원가입
-          </button>
+          </a>
         </div>
       </form>
     </div>

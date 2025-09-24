@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import supabase from '@/supabase';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function SignUpPage() {
   const navigate = useNavigate();
 
+  const { signUp, loading } = useAuthStore();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -18,49 +20,14 @@ export default function SignUpPage() {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-    try {
-      const { data: signUp, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { username, phone, address } },
-      });
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      const user = signUp.user;
-      const session = signUp.session;
-
-      //userinfo에 user정보 저장
-      if (user && session) {
-        const { data: upserted, error: upsertErr } = await supabase
-          .from('userinfo')
-          .upsert(
-            // 있으면 UPDATE, 없으면 INSERT
-            { id: user.id, email, username, phone, address },
-            { onConflict: 'id' },
-          )
-          .select()
-          .single();
-
-        if (upsertErr) {
-          console.log(
-            'RLS?',
-            upsertErr.code,
-            upsertErr.message,
-            upsertErr.details,
-            upsertErr.hint,
-          );
-          alert('프로필 저장 중 오류가 발생했습니다.');
-          return;
-        }
-      } else return;
-      navigate('/login', { replace: true });
-    } catch (err) {
-      console.error(err);
-      alert('회원가입 중 오류가 발생했습니다.');
-    }
+    await signUp({
+      email,
+      password,
+      username,
+      phone,
+      address,
+    });
+    navigate('/login', { replace: true });
   };
   return (
     <div className="min-w-[320px] w-1/2 mx-auto mt-20">
@@ -116,6 +83,7 @@ export default function SignUpPage() {
 
         <button
           type="submit"
+          disabled={loading}
           className="border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 text-white cursor-pointer px-2 py-2 rounded-md"
         >
           회원가입
