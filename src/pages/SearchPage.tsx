@@ -1,16 +1,22 @@
 import CategoryList from '@/components/CategoryList';
 import { Search } from 'lucide-react';
-
-const SearchDate = {};
+import { useState } from 'react';
 
 export default function SearchPage() {
+  const [keyword, setKeyword] = useState<string>('');
+  console.log(keyword);
   return (
     <div>
       <div className="w-full flex relative justify-center items-center ">
-        <input type="text" className="bg-gray-200 w-full rounded-md h-8" />
+        <input
+          type="text"
+          className="bg-gray-200 w-full rounded-md h-8"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
         <Search className="absolute right-2" />
       </div>
-      <CategoryList />
+      <CategoryList onSelect={setKeyword} />
       <section>
         <h3>인기 검색어</h3>
       </section>
