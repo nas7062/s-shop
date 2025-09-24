@@ -1,7 +1,16 @@
+import supabase from '@/supabase';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignUpPage() {
   const navigate = useNavigate();
+
+  const onSignUp = async () => {
+    const { user, session, error } = await supabase.auth.signUp({
+      email: 'example@email.com',
+      password: 'example-password',
+    });
+    console.log(user, session, error);
+  };
   return (
     <div className="min-w-[320px] w-1/2 mx-auto mt-20">
       <h2 className="bg-gray-100 py-4 text-xl font-semibold px-2">회원가입</h2>
@@ -27,11 +36,14 @@ export default function SignUpPage() {
           className="border border-gray-200 px-2 py-2 rounded-md"
         />
         <input
-          type="text" 
+          type="text"
           placeholder="주소"
           className="border border-gray-200 px-2 py-2 rounded-md"
         />
-        <button className="border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 text-white cursor-pointer px-2 py-2 rounded-md">
+        <button
+          onClick={onSignUp}
+          className="border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 text-white cursor-pointer px-2 py-2 rounded-md"
+        >
           회원가입
         </button>
 

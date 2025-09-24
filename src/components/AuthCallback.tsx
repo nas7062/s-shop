@@ -13,7 +13,6 @@ export default function AuthCallback() {
 
       if (error) {
         console.error(error);
-        alert('인증 정보를 불러오지 못했습니다.');
         navigate('/login', { replace: true });
         return;
       }
