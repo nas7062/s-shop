@@ -4,7 +4,7 @@ import ProductList from '@/components/ProductList';
 import { useState } from 'react';
 
 export default function HomePage() {
-  const [category, setCategory] = useState<string | null>(null);
+  const [category, setCategory] = useState<string>('');
   return (
     <div className="flex flex-col gap-10">
       <Banner />

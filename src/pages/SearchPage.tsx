@@ -1,10 +1,20 @@
 import CategoryList from '@/components/CategoryList';
+import { useDebounce } from '@/hooks/useDebounce';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchPage() {
+  const navigate = useNavigate();
   const [keyword, setKeyword] = useState<string>('');
-  console.log(keyword);
+  const debouncedKeyword = useDebounce(keyword, 500);
+
+  useEffect(() => {
+    if (debouncedKeyword) {
+      navigate(`/search?keyword=${encodeURIComponent(debouncedKeyword)}`);
+    }
+  }, [debouncedKeyword, navigate]);
+
   return (
     <div>
       <div className="w-full flex relative justify-center items-center ">
