@@ -82,7 +82,7 @@ export default function Header() {
               key={`${item.label || 'search'}-${i}`}
               onClick={() => handleSelect(item)}
               className={clsx(
-                'flex items-center gap-1 px-2 py-1 transition-all duration-300 hover:bg-gray-100 rounded-md',
+                'flex items-center gap-1 px-2 py-1 transition-all duration-300 hover:bg-gray-100 rounded-md cursor-pointer',
                 isActive(item.path) && 'text-black',
               )}
               aria-label={item.label || '검색'}

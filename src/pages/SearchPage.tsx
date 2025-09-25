@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function SearchPage() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
   const debouncedKeyword = useDebounce(keyword, 500);
 
   useEffect(() => {
@@ -27,14 +28,14 @@ export default function SearchPage() {
         />
         <Search className="absolute right-2" />
       </div>
-      <CategoryList onSelect={setKeyword} />
+      <CategoryList onSelect={setCategory} />
       <section>
         <h3>인기 검색어</h3>
       </section>
       <section>
         <h3>최근 본 상품</h3>
       </section>
-      <ProductList keyword={keyword} />
+      <ProductList keyword={keyword} category={category} />
     </div>
   );
 }
