@@ -1,4 +1,5 @@
 import CategoryList from '@/components/CategoryList';
+import ProductList from '@/components/ProductList';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -20,7 +21,7 @@ export default function SearchPage() {
       <div className="w-full flex relative justify-center items-center ">
         <input
           type="text"
-          className="bg-gray-200 w-full rounded-md h-8"
+          className="bg-gray-200 w-full rounded-md h-8 p-2"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
@@ -33,6 +34,7 @@ export default function SearchPage() {
       <section>
         <h3>최근 본 상품</h3>
       </section>
+      <ProductList keyword={keyword} />
     </div>
   );
 }

@@ -5,9 +5,13 @@ import ProductCard from './ProductCard';
 
 interface ProductListProps {
   category?: string;
+  keyword?: string;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ category = 'All' }) => {
+const ProductList: React.FC<ProductListProps> = ({
+  category = 'All',
+  keyword,
+}) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,11 +23,14 @@ const ProductList: React.FC<ProductListProps> = ({ category = 'All' }) => {
 
       try {
         let query = supabase.from('Products').select('*');
-        console.log(query, category);
         if (category && category !== 'All') {
           query.contains('Categories', [category]);
         }
-
+        if (keyword && keyword.trim() !== '') {
+          query = query.or(
+            `name.ilike.%${keyword}%,description.ilike.%${keyword}%`,
+          );
+        }
         const { data, error } = await query;
         console.log(data);
         if (error) throw error;
@@ -38,7 +45,7 @@ const ProductList: React.FC<ProductListProps> = ({ category = 'All' }) => {
     };
 
     fetchProducts();
-  }, [category]);
+  }, [category, keyword]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
