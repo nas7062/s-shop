@@ -17,12 +17,16 @@ const ProductList: React.FC<ProductListProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        let query = supabase.from('Products').select('*');
+        let query = supabase
+          .from('Products')
+          .select('*', { signal: controller.signal });
         if (category && category !== 'All') {
           query.contains('Categories', [category]);
         }
@@ -32,7 +36,8 @@ const ProductList: React.FC<ProductListProps> = ({
           );
         }
         const { data, error } = await query;
-        console.log(data);
+
+        if (!mounted) return;
         if (error) throw error;
 
         setProducts(data || []);
@@ -45,6 +50,10 @@ const ProductList: React.FC<ProductListProps> = ({
     };
 
     fetchProducts();
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
   }, [category, keyword]);
 
   if (loading) return <div>Loading...</div>;
