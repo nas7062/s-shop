@@ -108,11 +108,13 @@ export default function SearchPage() {
         {popLoading ? (
           <div>로딩 중…</div>
         ) : (
-          <ul className="grid grid-cols-3 grid-rows-3    gap-2 mt-2">
+          <ul className="grid grid-cols-3 grid-rows-3 gap-1 mt-2">
             {popular.map((p, idx) => (
-              <li key={p.keyword}>
+              <li key={p.keyword} className="w-full h-12">
                 <button
-                  className="px-3 py-1 rounded-lg   cursor-pointer text-sm font-semibold"
+                  className="w-full h-full flex items-center  px-2
+                       rounded-lg hover:bg-gray-100 cursor-pointer 
+                       text-sm font-semibold"
                   onClick={() => recordAndGo(p.keyword)}
                 >
                   {idx + 1} {p.keyword}
