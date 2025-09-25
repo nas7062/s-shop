@@ -12,16 +12,16 @@ export default function PopularList({
   onSelect,
 }: PopularListProps) {
   return (
-    <section className="mt-6 w-1/2">
+    <section className="mt-6  w-full lg:w-1/2">
       <h3 className="font-semibold text-xl">인기 검색어</h3>
       {popLoading ? (
         <div>로딩 중…</div>
       ) : (
-        <ul className="grid grid-cols-3 grid-rows-3 gap-1 mt-2">
+        <ul className="grid grid-cols-2 lg:grid-cols-3 grid-rows-3 gap-1 mt-2">
           {popular.map((p, idx) => (
             <li key={p.keyword} className="w-full h-12">
               <button
-                className="w-full h-full flex items-center  px-2rounded-lg hover:bg-gray-100 cursor-pointer text-sm font-semibold"
+                className="w-full h-full flex items-center  px-2 rounded-lg hover:bg-gray-100 cursor-pointer text-sm font-semibold"
                 onClick={() => onSelect(p.keyword)}
               >
                 {idx + 1} {p.keyword}
