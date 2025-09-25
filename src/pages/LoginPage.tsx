@@ -52,7 +52,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 disabled:opacity-60 disabled:cursor-not-allowed text-white px-3 py-2 rounded-md"
+          className="cursor-pointer border border-gray-700 bg-gray-700 transition duration-200 hover:bg-gray-900 disabled:opacity-60 disabled:cursor-not-allowed text-white px-3 py-2 rounded-md"
         >
           {loading ? '로그인 중…' : '로그인'}
         </button>
@@ -60,7 +60,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={signInWithKakao}
-          className="border border-yellow-300 bg-yellow-300 hover:bg-yellow-400 transition duration-200 text-black px-3 py-2 rounded-md"
+          className="cursor-pointer border border-yellow-300 bg-yellow-300 hover:bg-yellow-400 transition duration-200 text-black px-3 py-2 rounded-md"
         >
           카카오 로그인
         </button>
