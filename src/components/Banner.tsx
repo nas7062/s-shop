@@ -47,9 +47,6 @@ const banners: BannerProps[] = [
 export default function Banner() {
   return (
     <div className="w-full">
-      {/* 히어로(첫 슬라이드와 동일한 톤을 유지하고 싶다면 이 섹션을 유지하거나 제거해도 됩니다) */}
-      {/* 배너 슬라이더 */}
-
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}

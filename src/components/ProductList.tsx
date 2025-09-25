@@ -56,7 +56,7 @@ const ProductList: React.FC<ProductListProps> = ({
       <h2 className="text-xl font-semibold py-4">
         {category === 'All' || category === null
           ? '전체 상품'
-          : `"${category}" 카테고리`}{' '}
+          : `${category || '전체'} 카테고리 `}
         추천 아이템!
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-0.5">
