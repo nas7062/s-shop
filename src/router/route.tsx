@@ -7,6 +7,7 @@ import SignupPage from '@/pages/SignupPage';
 import TermsPage from '@/pages/TermsPage';
 import DetailPage from '@/pages/DetailPage';
 import AuthCallback from '@/components/AuthCallback';
+import LikePage from '@/pages/LikePage';
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: '/auth/callback',
         element: <AuthCallback />,
+      },
+      {
+        path: '/likes',
+        element: <LikePage />,
       },
     ],
   },
