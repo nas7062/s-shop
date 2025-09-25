@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import supabase from '@/supabase'; // ✅ Supabase 클라이언트 임포트
+import { Product } from './DetailPage';
+import ProductCard from '@/components/ProductCard';
 
 interface popularProps {
   keyword: string;
@@ -22,6 +24,9 @@ export default function SearchPage() {
   const [popular, setPopular] = useState<popularProps[]>([]);
   const [popLoading, setPopLoading] = useState<boolean>(true);
 
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [recentLoading, setRecentLoading] = useState<boolean>(true);
+
   //인기 검색어 조회 내림차순
   useEffect(() => {
     let mounted = true;
@@ -31,7 +36,7 @@ export default function SearchPage() {
         .from('search_keywords')
         .select('keyword, count')
         .order('count', { ascending: false })
-        .limit(10);
+        .limit(9);
 
       if (!mounted) return;
       if (error) {
@@ -44,6 +49,76 @@ export default function SearchPage() {
     };
 
     fetchPopular();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchRecent = async () => {
+      try {
+        setRecentLoading(true);
+
+        // 1) 유저 조회
+        const { data: userData, error: userErr } =
+          await supabase.auth.getUser();
+        if (userErr) {
+          console.error('[auth getUser] ', userErr);
+          if (mounted) setRecentProducts([]);
+          return;
+        }
+        const userId = userData.user?.id;
+        if (!userId) {
+          if (mounted) setRecentProducts([]);
+          return;
+        }
+        // 2) 최근 본 product_id 10개 (최신순)
+        const { data: recs, error: recErr } = await supabase
+          .from('recent_products')
+          .select('product_id, viewed_at')
+          .eq('user_id', userId)
+          .order('viewed_at', { ascending: false })
+          .limit(10);
+
+        if (recErr) {
+          console.error('[recent_products] ', recErr);
+          if (mounted) setRecentProducts([]);
+          return;
+        }
+        const productIds = (recs || []).map((r) => r.product_id);
+        if (productIds.length === 0) {
+          if (mounted) setRecentProducts([]);
+          return;
+        }
+
+        // 3) 제품 상세 조회
+        const { data: products, error: prodErr } = await supabase
+          .from('Products')
+          .select('*')
+          .in('id', productIds);
+
+        if (prodErr) {
+          console.error('[Products in] ', prodErr);
+          if (mounted) setRecentProducts([]);
+          return;
+        }
+
+        // 4) 원래 본 순서대로 정렬
+        const orderMap = new Map(productIds.map((id, i) => [id, i]));
+        const ordered = (products || []).slice().sort((a, b) => {
+          const ai = orderMap.get(a.id) ?? 0;
+          const bi = orderMap.get(b.id) ?? 0;
+          return ai - bi;
+        });
+
+        if (mounted) setRecentProducts(ordered as Product[]);
+      } finally {
+        if (mounted) setRecentLoading(false);
+      }
+    };
+
+    fetchRecent();
     return () => {
       mounted = false;
     };
@@ -65,11 +140,11 @@ export default function SearchPage() {
 
     setPopular((prev: any) => {
       const idx = prev.findIndex((p: any) => p.keyword === q);
-      if (idx === -1) return [{ keyword: q, cnt: 1 }, ...prev].slice(0, 10);
+      if (idx === -1) return [{ keyword: q, cnt: 1 }, ...prev].slice(0, 9);
       const next = [...prev];
       next[idx] = { ...next[idx], count: next[idx].count + 1 };
       next.sort((a, b) => b.count - a.count);
-      return next.slice(0, 10);
+      return next.slice(0, 9);
     });
   };
 
@@ -112,9 +187,7 @@ export default function SearchPage() {
             {popular.map((p, idx) => (
               <li key={p.keyword} className="w-full h-12">
                 <button
-                  className="w-full h-full flex items-center  px-2
-                       rounded-lg hover:bg-gray-100 cursor-pointer 
-                       text-sm font-semibold"
+                  className="w-full h-full flex items-center  px-2rounded-lg hover:bg-gray-100 cursor-pointer text-sm font-semibold"
                   onClick={() => recordAndGo(p.keyword)}
                 >
                   {idx + 1} {p.keyword}
@@ -127,6 +200,19 @@ export default function SearchPage() {
 
       <section className="mt-6">
         <h3 className="font-semibold text-xl">최근 본 상품</h3>
+        {recentLoading ? (
+          <div className="mt-2 text-sm text-gray-500">로딩 중…</div>
+        ) : recentProducts.length === 0 ? (
+          <div className="mt-2 text-sm text-gray-500">
+            최근 본 상품이 없습니다.
+          </div>
+        ) : (
+          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            {recentProducts.map((p) => (
+              <ProductCard product={p} />
+            ))}
+          </ul>
+        )}
       </section>
 
       <ProductList keyword={keyword} category={category} />
