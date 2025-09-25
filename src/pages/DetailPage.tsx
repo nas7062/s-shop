@@ -8,6 +8,7 @@ import supabase from '@/supabase';
 import TabButtons, { Tab } from '@/components/TabButtons';
 import ProductInfoTab from '@/components/ProductInfoTab';
 import TabReviews from '@/components/TabReviews';
+import { useAuthStore } from '@/store/useAuthStore';
 
 // 타입: 실제로는 API 응답 타입과 맞추세요
 export interface Product {
@@ -25,6 +26,7 @@ export interface Product {
 export default function DetailPage() {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product>();
+  const { profile } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<Tab>('상품정보');
@@ -38,7 +40,7 @@ export default function DetailPage() {
         const { data, error } = await supabase
           .from('Products')
           .select('*')
-          .eq('id', productId)
+          .eq('id', Number(productId))
           .single();
 
         if (error) {
@@ -57,6 +59,29 @@ export default function DetailPage() {
       setLoading(false);
     }
   }, [productId]);
+  useEffect(() => {
+    const upsertRecent = async () => {
+      if (!profile?.id || !productId) return;
+
+      const pid = Number(productId);
+      if (Number.isNaN(pid)) return;
+
+      const { error } = await supabase.from('recent_products').upsert(
+        {
+          user_id: profile.id,
+          product_id: pid,
+          viewed_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id,product_id' },
+      );
+
+      if (error) {
+        console.error('[recent_products upsert] ', error);
+      }
+    };
+
+    upsertRecent();
+  }, [profile?.id, productId]);
 
   const handleAddCart = () => {
     if (!selectedColor || !selectedSize) {
