@@ -9,6 +9,7 @@ import supabase from '@/supabase'; // ✅ Supabase 클라이언트 임포트
 import { Product } from './DetailPage';
 import ProductCard from '@/components/ProductCard';
 import PopularList from '@/components/PopularList';
+import RecentProducts from '@/components/RecentProducts';
 
 export interface popularProps {
   keyword: string;
@@ -175,33 +176,23 @@ export default function SearchPage() {
           <Search />
         </button>
       </form>
-
-      {/* 카테고리는 페이지 내 필터 상태로만 사용 */}
       <CategoryList onSelect={setCategory} />
-      <PopularList
-        popLoading={popLoading}
-        popular={popular}
-        onSelect={recordAndGo}
-      />
 
-      <section className="mt-6">
-        <h3 className="font-semibold text-xl">최근 본 상품</h3>
-        {recentLoading ? (
-          <div className="mt-2 text-sm text-gray-500">로딩 중…</div>
-        ) : recentProducts.length === 0 ? (
-          <div className="mt-2 text-sm text-gray-500">
-            최근 본 상품이 없습니다.
-          </div>
-        ) : (
-          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {recentProducts.map((p) => (
-              <ProductCard product={p} />
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <ProductList keyword={keyword} category={category} />
+      {keyword.trim() !== '' || category !== 'All' ? (
+        <ProductList keyword={keyword} category={category} />
+      ) : (
+        <>
+          <PopularList
+            popLoading={popLoading}
+            popular={popular}
+            onSelect={recordAndGo}
+          />
+          <RecentProducts
+            recentLoading={recentLoading}
+            recentProducts={recentProducts}
+          />
+        </>
+      )}
     </div>
   );
 }
