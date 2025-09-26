@@ -1,3 +1,9 @@
+import ProductList from '@/components/ProductList';
+
 export default function LikePage() {
-  return <div></div>;
+  return (
+    <div>
+      <ProductList />
+    </div>
+  );
 }

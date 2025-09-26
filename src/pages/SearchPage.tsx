@@ -3,11 +3,8 @@ import ProductList from '@/components/ProductList';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Autoplay, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import supabase from '@/supabase'; // ✅ Supabase 클라이언트 임포트
+import supabase from '@/supabase';
 import { Product } from './DetailPage';
-import ProductCard from '@/components/ProductCard';
 import PopularList from '@/components/PopularList';
 import RecentProducts from '@/components/RecentProducts';
 
